@@ -1,0 +1,15 @@
+name: OneDay push reminders
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch: {}
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: run due reminders
+        run: |
+          curl -sf -m 40 -X POST \
+            "https://oneday-app-pi.vercel.app/api/push/reminders/run-due" \
+            -H "X-API-Token: ${{ secrets.ONEDAY_API_TOKEN }}"
